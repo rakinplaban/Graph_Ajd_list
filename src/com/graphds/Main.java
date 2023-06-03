@@ -4,7 +4,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Vector<Character> r_list = new Vector<Character>();
-		HashMap<Character,Vector> adj_list = new HashMap<Character,Vector>();
+		HashMap<Character,Vector<Character>> adj_list = new HashMap<Character,Vector<Character>>();
 		r_list.add('s');
 		r_list.add('v');
 		adj_list.put('r', r_list);
@@ -39,6 +39,10 @@ public class Main {
 		y_list.add('u');
 		adj_list.put('y', y_list);
 		System.out.print(adj_list);
+		System.out.println();
+		
+		BFS bfs_traversal = new BFS(adj_list);
+		bfs_traversal.traversal('s');
 	}
 
 }
