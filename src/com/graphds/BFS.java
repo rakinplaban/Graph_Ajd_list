@@ -1,55 +1,55 @@
 package com.graphds;
 import java.util.*;
-import java.lang.*;
-public class BFS extends Data{
-	private static char[] color ;
-	private static int[] d ;
-	private static char[] prev ;
-	private Queue<Character> Q = new LinkedList<Character>();
-	private HashMap<Character,Vector<Character>> graph = new HashMap<Character,Vector<Character>>();
-	
-	public BFS(HashMap<Character, Vector<Character>> graph) {
-	    super(color, d, prev);
-	    this.graph = graph;
-	}
 
-	
-	public void traversal(char source) {
-		color = new char[graph.size()];
-	    d = new int[graph.size()];
-	    prev = new char[graph.size()];
-	    
-		for(char u : graph.keySet()) {
-			if(u==source) {
-				continue;
-			}
-			else {
-				color[u] = 'W';
-				d[u] = -1;
-				prev[u] = 'N';
-			}
-		}
-		
-		color[source]='G';
-		d[source]=0; 
-		prev[source]= 'N';
-		
-		Q = null;
-		Q.add(source);
-		
-		while(!Q.isEmpty()) {
-			char u = Q.remove();
-			for(char v : graph.get(u)) {
-				if(color[v]=='W') {
-					color[v] = 'G';
-					d[v] = d[u] + 1;
-					prev[v] = u;
-					Q.add(v);
-				}
-			}
-			color[u] = 'B';
-			System.out.print(u);
-		}
-		
-	}
+public class BFS {
+    private Map<Character, List<Character>> graph;
+
+    public BFS(Map<Character, List<Character>> graph) {
+        this.graph = graph;
+    }
+
+    public void traversal(char source) {
+        Map<Character, Character> color = new HashMap<>();
+        Map<Character, Character> prev = new HashMap<>();
+        Map<Character, Integer> distance = new HashMap<>();
+
+        // Initialization
+        for (char u : graph.keySet()) {
+            if (u != source) {
+                color.put(u, 'W');
+                prev.put(u, 'N');
+                distance.put(u, Integer.MAX_VALUE);
+            }
+        }
+
+        color.put(source, 'G');
+        distance.put(source, 0);
+
+        Queue<Character> queue = new LinkedList<>();
+        queue.add(source);
+
+        while (!queue.isEmpty()) {
+            char u = queue.remove();
+
+            for (char v : graph.get(u)) {
+                if (color.get(v) == 'W') {
+                    color.put(v, 'G');
+                    distance.put(v, distance.get(u) + 1);
+                    prev.put(v, u);
+                    queue.add(v);
+                }
+            }
+
+            color.put(u, 'B');
+        }
+
+        // Print the results
+        System.out.println("Data: color[V], prev[V], d[V]");
+        for (char v : graph.keySet()) {
+            System.out.println("color[" + v + "] = " + color.get(v));
+            System.out.println("prev[" + v + "] = " + prev.get(v));
+            System.out.println("d[" + v + "] = " + distance.get(v));
+        }
+    }
+
 }
